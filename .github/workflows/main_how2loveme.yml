@@ -27,11 +27,15 @@ jobs:
           npm run build --if-present
           npm run test --if-present
 
+      - name: zip artifacts
+        run: |
+          zip -r ./build.zip ./*
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
           name: node-app
-          path: .
+          path: ./build.zip
+          retention-days: 1
 
   deploy:
     runs-on: ubuntu-latest
@@ -45,6 +49,11 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: node-app
+      - name: unzip
+        run: |
+          pwd
+          ls -al
+          unzip ./build.zip -d ./build
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
@@ -53,4 +62,4 @@ jobs:
           app-name: 'how2loveme'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_998847B0173C4B8D8FA354740692B1EA }}
-          package: .
+          package: ./build
