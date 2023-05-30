@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/8bd3d1bd-8a86-43ef-b44c-e5030057c0df/resourceGroups/blog/providers/Microsoft.Web/sites/nest-rentals",
+    "appService.deploySubpath": "."
+}
